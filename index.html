@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+</head>
+
+<body>
+    <h1>Rock Ppaer Scissiors</h1>
+    <button onclick="playGame()">Play</button>
+    <div id="results"></div>
+
+    <script>
+        function playGame(params) {
+            const results = []
+            for (let i = 0; i < 5; i++) {
+            const ComputerSelection = getComputerChoice();
+            const PlayerSelection = getPlayerChoice();
+            const result = determineWinner(PlayerSelection, ComputerSelection);
+            results.push(result)
+            }
+            displayResults(results);
+        }
+
+        function getComputerChoice(params) {
+            const randomNumber = Math.floor(Math.random() * 3);
+
+
+            switch (randomNumber) {
+                case 0: {
+                    return 'rock'
+                }
+                case 1: {
+                    return 'paper'
+                }
+                case 2: {
+                    return 'scissors'
+                }
+            }
+        }
+
+        function getPlayerChoice(params) {
+            let selection;
+            do {
+                selection = prompt("Enter your choice (rock, paper, scissors)");
+            } while (!isValidSelection) {
+
+                return selection.toLowerCase()
+            }
+        }
+
+        function isValidSelection(selection) {
+            return ['rock', 'paper', 'scissors'].includes(selection.toLowerCase());
+
+        }
+        function determineWinner(PlayerChoice, ComputerChoice) {
+        
+
+            if (PlayerChoice === ComputerChoice) {
+                return "Its a tie You Both chose" + " " + PlayerChoice;
+
+            } else if (PlayerChoice === 'rock' && ComputerChoice === 'scissors' || PlayerChoice === 'paper' && ComputerChoice === 'rock' || PlayerChoice === 'scissors' && ComputerChoice === 'paper') {
+
+                return "You win" + " "+ PlayerChoice + " "+ "beats" + " "+ ComputerChoice;
+            } else {
+                return "Computer wins" + " " + ComputerChoice + " " +"beats" +" "+ PlayerChoice;
+            }
+
+        }
+        function displayResults(results) {
+    const resultsDiv = document.getElementById("results");
+
+    // Clear previous results
+    resultsDiv.innerHTML = "";
+
+    // Display each result in a new paragraph using a for loop
+    for (let i = 0; i < results.length; i++) {
+        const result = results[i];
+        const paragraph = document.createElement("p");
+        paragraph.textContent = result;
+        resultsDiv.appendChild(paragraph);
+    }
+}
+
+    </script>
+</body>
+
+</html>
