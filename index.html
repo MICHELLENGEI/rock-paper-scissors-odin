@@ -8,82 +8,78 @@
 </head>
 
 <body>
-    <h1>Rock Ppaer Scissiors</h1>
-    <button onclick="playGame()">Play</button>
+    <h1>Rock Paper Scissors</h1>
+
+    <button type="button" class="choice" data-value="rock">Rock</button>
+    <button type="button" class="choice" data-value="paper">Paper</button>
+    <button type="button" class="choice" data-value="scissors">Scissors</button>
+
     <div id="results"></div>
 
     <script>
-        function playGame(params) {
-            const results = []
-            for (let i = 0; i < 5; i++) {
-            const ComputerSelection = getComputerChoice();
-            const PlayerSelection = getPlayerChoice();
-            const result = determineWinner(PlayerSelection, ComputerSelection);
-            results.push(result)
-            }
-            displayResults(results);
+        // Define results array in a higher scope
+        const results = [];
+
+        // Get reference to each button
+        const rockButton = document.querySelector('.choice[data-value="rock"]');
+        const paperButton = document.querySelector('.choice[data-value="paper"]');
+        const scissorsButton = document.querySelector('.choice[data-value="scissors"]');
+
+        // Add event listeners to each button
+        rockButton.addEventListener('click', () => playGame("rock"));
+        paperButton.addEventListener('click', () => playGame("paper"));
+        scissorsButton.addEventListener('click', () => playGame("scissors"));
+
+        function playGame(playerSelection) {
+            // Get computer's selection
+            const computerSelection = getComputerChoice();
+
+            // Determine the winner
+            const result = determineWinner(playerSelection, computerSelection);
+
+            // Push result to the results array
+            results.push(result);
+
+            // Display results
+            displayResults();
         }
 
-        function getComputerChoice(params) {
+        function getComputerChoice() {
             const randomNumber = Math.floor(Math.random() * 3);
-
-
             switch (randomNumber) {
-                case 0: {
-                    return 'rock'
-                }
-                case 1: {
-                    return 'paper'
-                }
-                case 2: {
-                    return 'scissors'
-                }
+                case 0: return 'rock';
+                case 1: return 'paper';
+                case 2: return 'scissors';
             }
         }
 
-        function getPlayerChoice(params) {
-            let selection;
-            do {
-                selection = prompt("Enter your choice (rock, paper, scissors)");
-            } while (!isValidSelection) {
-
-                return selection.toLowerCase()
-            }
-        }
-
-        function isValidSelection(selection) {
-            return ['rock', 'paper', 'scissors'].includes(selection.toLowerCase());
-
-        }
-        function determineWinner(PlayerChoice, ComputerChoice) {
-        
-
-            if (PlayerChoice === ComputerChoice) {
-                return "Its a tie You Both chose" + " " + PlayerChoice;
-
-            } else if (PlayerChoice === 'rock' && ComputerChoice === 'scissors' || PlayerChoice === 'paper' && ComputerChoice === 'rock' || PlayerChoice === 'scissors' && ComputerChoice === 'paper') {
-
-                return "You win" + " "+ PlayerChoice + " "+ "beats" + " "+ ComputerChoice;
+        function determineWinner(playerChoice, computerChoice) {
+            if (playerChoice === computerChoice) {
+                return "It's a tie! Both chose " + playerChoice;
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                return "You win! " + playerChoice + " beats " + computerChoice;
             } else {
-                return "Computer wins" + " " + ComputerChoice + " " +"beats" +" "+ PlayerChoice;
+                return "Computer wins! " + computerChoice + " beats " + playerChoice;
             }
-
         }
-        function displayResults(results) {
-    const resultsDiv = document.getElementById("results");
 
-    // Clear previous results
-    resultsDiv.innerHTML = "";
+        function displayResults() {
+            const resultsDiv = document.getElementById("results");
 
-    // Display each result in a new paragraph using a for loop
-    for (let i = 0; i < results.length; i++) {
-        const result = results[i];
-        const paragraph = document.createElement("p");
-        paragraph.textContent = result;
-        resultsDiv.appendChild(paragraph);
-    }
-}
+            // Clear previous results
+            resultsDiv.innerHTML = "";
 
+            // Display each result in a new paragraph
+            results.forEach(result => {
+                const paragraph = document.createElement("p");
+                paragraph.textContent = result;
+                resultsDiv.appendChild(paragraph);
+            });
+        }
     </script>
 </body>
 
